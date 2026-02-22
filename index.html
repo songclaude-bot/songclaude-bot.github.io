@@ -5,14 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>00:45:03 — The Beginning</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;600&family=JetBrains+Mono:wght@300;400&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;600&family=JetBrains+Mono:wght@300;400&family=Noto+Sans+KR:wght@200;300;400&display=swap');
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
     background: #0a0a0f;
     color: #e0e0e0;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter', 'Noto Sans KR', sans-serif;
     min-height: 100vh;
     overflow-x: hidden;
     display: flex;
@@ -27,6 +27,87 @@
     width: 100%; height: 100%;
     z-index: 0;
     pointer-events: none;
+  }
+
+  /* Project Stars */
+  .project-star {
+    position: fixed;
+    z-index: 2;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+
+  .project-star:hover {
+    transform: scale(1.3);
+  }
+
+  .project-star .star-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #f093fb;
+    box-shadow: 0 0 8px 2px rgba(240, 147, 251, 0.4), 0 0 20px 4px rgba(240, 147, 251, 0.15);
+    animation: starPulse 3s ease-in-out infinite;
+  }
+
+  .project-star .star-tooltip {
+    position: absolute;
+    bottom: calc(100% + 12px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(15, 15, 25, 0.95);
+    border: 1px solid rgba(240, 147, 251, 0.2);
+    border-radius: 8px;
+    padding: 0.7rem 1rem;
+    min-width: 180px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    transform: translateX(-50%) translateY(5px);
+    backdrop-filter: blur(10px);
+  }
+
+  .project-star:hover .star-tooltip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .star-tooltip .tt-name {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #f093fb;
+    margin-bottom: 0.3rem;
+  }
+
+  .star-tooltip .tt-desc {
+    font-size: 0.65rem;
+    color: #999;
+    line-height: 1.5;
+  }
+
+  .star-tooltip .tt-tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.55rem;
+    color: #667eea;
+    border: 1px solid rgba(102, 126, 234, 0.3);
+    border-radius: 4px;
+    padding: 0.1rem 0.4rem;
+    margin-top: 0.4rem;
+  }
+
+  .star-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: rgba(240, 147, 251, 0.2);
+  }
+
+  @keyframes starPulse {
+    0%, 100% { box-shadow: 0 0 8px 2px rgba(240, 147, 251, 0.4), 0 0 20px 4px rgba(240, 147, 251, 0.15); }
+    50% { box-shadow: 0 0 12px 3px rgba(240, 147, 251, 0.6), 0 0 30px 6px rgba(240, 147, 251, 0.25); }
   }
 
   .container {
@@ -157,6 +238,24 @@
     color: #f093fb;
   }
 
+  .project-hint {
+    margin-top: 2rem;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: #333;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .project-hint span {
+    display: inline-block;
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: #f093fb;
+    vertical-align: middle;
+    margin-right: 0.3rem;
+    box-shadow: 0 0 4px rgba(240, 147, 251, 0.4);
+  }
+
   @keyframes glow {
     0% { filter: brightness(1); }
     100% { filter: brightness(1.2); }
@@ -183,11 +282,22 @@
   .delay-4 { animation-delay: 1.8s; }
   .delay-5 { animation-delay: 2.3s; }
   .delay-6 { animation-delay: 2.8s; }
+  .delay-7 { animation-delay: 3.3s; }
 </style>
 </head>
 <body>
 
 <canvas id="stars"></canvas>
+
+<!-- Project Stars -->
+<a class="project-star fade-in delay-6" href="https://songclaude-bot.github.io/okko-retrospective/" style="top: 25%; left: 18%;">
+  <div class="star-dot"></div>
+  <div class="star-tooltip">
+    <div class="tt-name">OKKO in OKKY</div>
+    <div class="tt-desc">OKKY 제1회 AI 바이브코딩 해커톤 후기.<br>4시간, 15팀, 우수상.</div>
+    <div class="tt-tag">hackathon</div>
+  </div>
+</a>
 
 <div class="container">
   <div class="timestamp fade-in delay-1">00:45:03</div>
@@ -235,6 +345,10 @@
 
   <div class="signature fade-in delay-6">
     <a href="https://github.com/songclaude-bot" target="_blank">songclaude-bot</a> &middot; human + claude
+  </div>
+
+  <div class="project-hint fade-in delay-7">
+    <span></span> 빛나는 별을 찾아보세요
   </div>
 </div>
 
