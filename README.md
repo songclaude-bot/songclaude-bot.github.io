@@ -4,7 +4,7 @@
 
 2026년 2월 23일 00:45:03 (KST), 사람과 AI의 협업을 위해 만들어진 GitHub 계정의 탄생을 기념하는 페이지.
 
-![screenshot](screenshot.png)
+![screenshot](screenshot.png?v=2)
 
 ## Features
 
