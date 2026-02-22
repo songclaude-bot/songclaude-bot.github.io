@@ -50,25 +50,22 @@
   }
 
   .project-star .star-tooltip {
-    position: absolute;
-    bottom: calc(100% + 12px);
-    left: 50%;
-    transform: translateX(-50%);
+    position: fixed;
     background: rgba(15, 15, 25, 0.95);
     border: 1px solid rgba(240, 147, 251, 0.2);
     border-radius: 8px;
     padding: 0.7rem 1rem;
     min-width: 180px;
+    max-width: 220px;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    transform: translateX(-50%) translateY(5px);
+    transition: opacity 0.3s ease;
     backdrop-filter: blur(10px);
+    z-index: 10;
   }
 
-  .project-star:hover .star-tooltip {
+  .project-star.show-tooltip .star-tooltip {
     opacity: 1;
-    transform: translateX(-50%) translateY(0);
   }
 
   .star-tooltip .tt-name {
@@ -95,7 +92,17 @@
     margin-top: 0.4rem;
   }
 
-  .star-tooltip::after {
+  .project-star .star-tooltip[data-pos="below"]::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-bottom-color: rgba(240, 147, 251, 0.2);
+  }
+
+  .project-star .star-tooltip[data-pos="above"]::after {
     content: '';
     position: absolute;
     top: 100%;
@@ -411,6 +418,57 @@
 
   updateCounter();
   setInterval(updateCounter, 1000);
+
+  // Tooltip positioning
+  document.querySelectorAll('.project-star').forEach(star => {
+    const tooltip = star.querySelector('.star-tooltip');
+
+    function positionTooltip() {
+      const rect = star.getBoundingClientRect();
+      const tw = tooltip.offsetWidth;
+      const th = tooltip.offsetHeight;
+      const gap = 12;
+      const pad = 10;
+
+      // horizontal: center on star, clamp to viewport
+      let left = rect.left + rect.width / 2 - tw / 2;
+      left = Math.max(pad, Math.min(left, window.innerWidth - tw - pad));
+
+      // vertical: prefer above, fall below if no room
+      let top;
+      if (rect.top - th - gap >= pad) {
+        top = rect.top - th - gap;
+        tooltip.setAttribute('data-pos', 'above');
+      } else {
+        top = rect.bottom + gap;
+        tooltip.setAttribute('data-pos', 'below');
+      }
+
+      tooltip.style.left = left + 'px';
+      tooltip.style.top = top + 'px';
+    }
+
+    star.addEventListener('mouseenter', () => {
+      positionTooltip();
+      star.classList.add('show-tooltip');
+    });
+    star.addEventListener('mouseleave', () => {
+      star.classList.remove('show-tooltip');
+    });
+    star.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      positionTooltip();
+      const isShowing = star.classList.contains('show-tooltip');
+      document.querySelectorAll('.project-star').forEach(s => s.classList.remove('show-tooltip'));
+      if (!isShowing) star.classList.add('show-tooltip');
+    }, { passive: false });
+  });
+
+  document.addEventListener('touchstart', (e) => {
+    if (!e.target.closest('.project-star')) {
+      document.querySelectorAll('.project-star').forEach(s => s.classList.remove('show-tooltip'));
+    }
+  });
 </script>
 
 </body>

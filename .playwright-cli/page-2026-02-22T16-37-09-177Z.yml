@@ -1,0 +1,146 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - generic [ref=e4]: Hackathon Retrospective
+    - heading "OKKO in OKKY" [level=1] [ref=e5]
+    - paragraph [ref=e6]: OKKY 제1회 AI 바이브코딩 미니 해커톤
+    - generic [ref=e7]:
+      - generic [ref=e8]: 2026.02.21
+      - generic [ref=e10]: 4시간
+      - generic [ref=e12]: 15팀 중 3등
+      - generic [ref=e14]: 우수상
+    - generic [ref=e16]: SCROLL
+  - generic [ref=e17]:
+    - generic [ref=e18]: chapter 01 — the beginning
+    - heading "코드를 치지 말 것." [level=2] [ref=e19]
+    - paragraph [ref=e20]: 어쩌다 보니 공고도 마감된 해커톤을 스파르타 카르텔에 힘입어 참여할 기회가 생겼다.
+    - paragraph [ref=e21]: 이름하여 OKKY 제1회 AI 바이브코딩 미니 해커톤. 물론 그 이름에서 아저씨 향기가 날 순 있지만 그래도 오래 살아남은 몇 안되는 개발자 커뮤니티로 무시할 순 없다.
+    - paragraph [ref=e22]: 룰은 단순 간단하지만 오묘했다. 개발자를 데려다 놓고 코드를 치지 말라는 룰. 해커톤이라고 불러도 되나 싶을 정도로 짧은 4시간의 작업시간.
+    - generic [ref=e23]:
+      - img "오늘의 코디 OKKO 발표 타이틀" [ref=e24]
+      - generic [ref=e25]: Team OKKO — 전신 사진 한 장으로 완성하는 AI 기반 가상 코디네이션 서비스
+  - generic [ref=e28]:
+    - generic [ref=e29]: chapter 02 — the idea
+    - heading "오늘의 코디, OKKO" [level=2] [ref=e30]
+    - paragraph [ref=e31]: AI가 다 만들어내는 세상에서 인간은 뭘 하면 좋을까. 심미적인 선택이 그 마지노선이 아닐까 싶은 마음이었다.
+    - paragraph [ref=e32]: 전신 사진 한 장을 올리면 AI가 옷을 인식하고, 분석하고, 가상 옷장을 만들어주고, 코디까지 제안해주는 서비스. 인간은 최종 선택만 하면 된다.
+    - generic [ref=e33]:
+      - generic [ref=e34]:
+        - img "서비스 컨셉"
+        - generic [ref=e35]: 서비스 컨셉 — 옷장 분석
+      - generic [ref=e36]:
+        - img "스마트 클로젯" [ref=e37]
+        - generic [ref=e38]: 스마트 클로젯 기능
+  - generic [ref=e41]:
+    - generic [ref=e42]: chapter 03 — the build
+    - heading "4시간의 기록" [level=2] [ref=e43]
+    - generic [ref=e44]:
+      - generic [ref=e49]:
+        - generic [ref=e50]: 사진 업로드 & 얼굴 모자이크
+        - generic [ref=e51]: 전신 사진을 올리면 OpenCV.js + YuNet 모델로 얼굴을 클라이언트에서 즉시 블러 처리. 서버에 얼굴이 전송되지 않는다.
+      - generic [ref=e56]:
+        - generic [ref=e57]: AI 세그멘테이션
+        - generic [ref=e58]: Replicate SAM3 API로 상의/하의/신발/원피스를 자동 분리. 4개 카테고리를 병렬로 처리.
+      - generic [ref=e63]:
+        - generic [ref=e64]: 소재 분석 & 프로덕트 샷 생성
+        - generic [ref=e65]: LLM이 소재와 색상을 분석하고, GPT Image로 깔끔한 프로덕트 샷을 생성. 배경 제거는 WASM으로 클라이언트에서 처리.
+      - generic [ref=e70]:
+        - generic [ref=e71]: 가상 옷장 저장
+        - generic [ref=e72]: Supabase에 저장. 익명 인증으로 시작해서 나중에 계정 연결 가능.
+      - generic [ref=e76]:
+        - generic [ref=e77]: 코디 프리뷰
+        - generic [ref=e78]: 프리셋 모델을 선택하고 옷을 조합하면 AI가 가상 피팅 이미지를 생성.
+    - generic [ref=e79]:
+      - generic [ref=e80]:
+        - img "사용자 플로우"
+        - generic [ref=e81]: 사용자 플로우 (5단계)
+      - generic [ref=e82]:
+        - img "시스템 아키텍처"
+        - generic [ref=e83]: 시스템 아키텍처
+  - generic [ref=e86]:
+    - generic [ref=e87]: chapter 04 — the stack
+    - heading "기술 스택" [level=2] [ref=e88]
+    - generic [ref=e89]:
+      - generic [ref=e90]:
+        - generic [ref=e91]: Next.js 16
+        - generic [ref=e92]: 풀스택 프레임워크
+      - generic [ref=e93]:
+        - generic [ref=e94]: React 19
+        - generic [ref=e95]: UI
+      - generic [ref=e96]:
+        - generic [ref=e97]: TypeScript
+        - generic [ref=e98]: 타입 안전성
+      - generic [ref=e99]:
+        - generic [ref=e100]: Supabase
+        - generic [ref=e101]: DB + Auth + Storage
+      - generic [ref=e102]:
+        - generic [ref=e103]: OpenCV.js
+        - generic [ref=e104]: 얼굴 블러
+      - generic [ref=e105]:
+        - generic [ref=e106]: SAM3
+        - generic [ref=e107]: 세그멘테이션
+      - generic [ref=e108]:
+        - generic [ref=e109]: GPT Image
+        - generic [ref=e110]: 이미지 생성
+      - generic [ref=e111]:
+        - generic [ref=e112]: Tailwind 4
+        - generic [ref=e113]: 스타일링
+    - generic [ref=e114]:
+      - img "주요 기능 및 UI"
+      - generic [ref=e115]: 주요 기능 & UI
+  - generic [ref=e118]:
+    - generic [ref=e119]: chapter 05 — the service
+    - heading "실제 서비스" [level=2] [ref=e120]
+    - generic [ref=e121]:
+      - generic [ref=e122]:
+        - img "오늘의 코디 랜딩 페이지"
+        - generic [ref=e123]: 랜딩 페이지
+      - generic [ref=e124]:
+        - img "내 옷장"
+        - generic [ref=e125]: 내 옷장
+    - generic [ref=e126]:
+      - img "가치 제안 및 향후 계획"
+      - generic [ref=e127]: 가치 제안 — Digital Closet / My Taste / Human Centric
+  - generic [ref=e130]:
+    - generic [ref=e131]: chapter 06 — the philosophy
+    - heading "헤이 자비스, 아이언맨 만들어줘." [level=2] [ref=e132]
+    - paragraph [ref=e133]: 백케스팅이라는 개념이 있다. 신기술이 나타났을 때 "어? 이거 영화에서 본적 있는데?" 싶은 마음이 바로 그 부분이다.
+    - paragraph [ref=e134]: 각본가가 미래의 신기술을 예상하는 것이 아니라 새로운 기술이 개발될 때 미디어 매체로부터 영향을 받는다는 개념이다.
+    - paragraph [ref=e135]: 내가 아는 영화 중 AI를 가장 자연스럽게 다룬 영화는 아이언맨이었다.
+    - generic [ref=e136]:
+      - paragraph [ref=e137]: 당연히 뚝딱 만들어줬다. 고고도에선 아이싱 문제로 얼어붙어서 죽을뻔하게.
+      - paragraph [ref=e138]: 헤이 자비스 고쳐줘.
+      - paragraph [ref=e139]: 당연히 뚝딱 고쳐줬다. 집이 아니면 입지도 벗지도 못하게.
+      - paragraph [ref=e140]: 헤이 자비스 고쳐줘.
+      - paragraph [ref=e141]: 당연히 뚝딱 고쳐줬다. 슈트를 들고다닐 수 있게.
+    - paragraph [ref=e142]: 모나코서킷에서 박살나고 몸에 나노로 심는 것까지 이어서 계속해서 개선해나간다.
+    - paragraph [ref=e143]: AI가 짱짱 강한 슈퍼 히어로가 되는 세계관에서도 여전히 토니 스타크의 오케스트레이션이 필요했다.
+    - paragraph [ref=e144]: 바이브 코딩이 그 일종이 아닌가 싶다.
+    - generic [ref=e145]:
+      - paragraph [ref=e146]: "\"몇 명 구할 수 있지?\""
+      - paragraph [ref=e147]: "\"팔 다리 각각 모두 사용하면 네명까지 가능합니다.\""
+      - generic [ref=e148]: — 비행기가 공중에서 터져서 승객들이 떨어지고 있는 순간
+    - paragraph [ref=e149]: 토니는 그 세계관에서도 자비스의 조언에 "그럼 네명을 구하자!" 라고 하지 않고 모두의 손을 이어서 구하는 방법은 어떤지 다시 검토를 제안했다.
+    - paragraph [ref=e150]: 다시금 1학년 필수 교양에 들어갔던 논리와 비판적 사고가 요즘 시대에 얼마나 필요한지 깨달았다.
+  - generic [ref=e153]:
+    - generic [ref=e154]: chapter 07 — the result
+    - generic [ref=e155]: 우수상
+    - heading "15팀 중 3등" [level=2] [ref=e156]
+    - paragraph [ref=e157]:
+      - text: 잘 했다기 보단 취지에 맞았다라는 해석이 맞아 보인다.
+      - text: 그치만 정말 기상천외한 분들이 많았다.
+      - text: 4시간만에 파이썬 GC를 개선하신 분부터 별의별 자동화가 다 나왔다.
+    - generic [ref=e158]:
+      - img "우수상 수상"
+      - generic [ref=e159]: OKKY 제1회 AI 바이브코딩 미니 해커톤 — 우수상
+  - generic [ref=e162]:
+    - paragraph [ref=e163]: OKKO in OKKY.
+    - paragraph [ref=e164]: 겨울이었다....
+  - contentinfo [ref=e165]:
+    - generic [ref=e166]:
+      - link "GitHub" [ref=e167] [cursor=pointer]:
+        - /url: https://github.com/okko93837/okko-in-okky
+      - link "Instagram" [ref=e168] [cursor=pointer]:
+        - /url: https://www.instagram.com/p/DVBoDdgkpv2
+      - link "Home" [ref=e169] [cursor=pointer]:
+        - /url: https://songclaude-bot.github.io
+    - generic [ref=e170]: human + claude · 2026
