@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>00:45:03 — The Beginning</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;600&family=JetBrains+Mono:wght@300;400&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0a0a0f;
+    color: #e0e0e0;
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  canvas#stars {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 2rem;
+    max-width: 720px;
+  }
+
+  .timestamp {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(3rem, 10vw, 6rem);
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: glow 4s ease-in-out infinite alternate;
+    margin-bottom: 0.5rem;
+  }
+
+  .date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(1rem, 3vw, 1.4rem);
+    font-weight: 300;
+    color: #667eea;
+    letter-spacing: 0.15em;
+    opacity: 0.8;
+    margin-bottom: 3rem;
+  }
+
+  .divider {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #667eea, transparent);
+    margin: 0 auto 3rem;
+  }
+
+  .message {
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    font-weight: 200;
+    line-height: 2;
+    color: #b0b0c0;
+    margin-bottom: 3rem;
+  }
+
+  .message em {
+    font-style: normal;
+    color: #f093fb;
+    font-weight: 300;
+  }
+
+  .counter-section {
+    margin-bottom: 3rem;
+  }
+
+  .counter-label {
+    font-size: 0.8rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #555;
+    margin-bottom: 1rem;
+  }
+
+  .counter {
+    display: flex;
+    justify-content: center;
+    gap: clamp(0.8rem, 3vw, 2rem);
+    flex-wrap: wrap;
+  }
+
+  .counter-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .counter-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
+    font-weight: 400;
+    color: #e0e0e0;
+    min-width: 2.5ch;
+  }
+
+  .counter-name {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #555;
+    margin-top: 0.3rem;
+  }
+
+  .separator {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
+    color: #333;
+    align-self: flex-start;
+    padding-top: 0.1em;
+    animation: blink 2s ease-in-out infinite;
+  }
+
+  .quote {
+    font-size: 0.85rem;
+    font-weight: 300;
+    color: #444;
+    font-style: italic;
+    letter-spacing: 0.05em;
+  }
+
+  .signature {
+    margin-top: 4rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: #333;
+    letter-spacing: 0.1em;
+  }
+
+  .signature a {
+    color: #667eea;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .signature a:hover {
+    color: #f093fb;
+  }
+
+  @keyframes glow {
+    0% { filter: brightness(1); }
+    100% { filter: brightness(1.2); }
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.2; }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-in {
+    opacity: 0;
+    animation: fadeUp 1.2s ease forwards;
+  }
+
+  .delay-1 { animation-delay: 0.3s; }
+  .delay-2 { animation-delay: 0.8s; }
+  .delay-3 { animation-delay: 1.3s; }
+  .delay-4 { animation-delay: 1.8s; }
+  .delay-5 { animation-delay: 2.3s; }
+  .delay-6 { animation-delay: 2.8s; }
+</style>
+</head>
+<body>
+
+<canvas id="stars"></canvas>
+
+<div class="container">
+  <div class="timestamp fade-in delay-1">00:45:03</div>
+  <div class="date fade-in delay-1">2026 . 02 . 23</div>
+
+  <div class="divider fade-in delay-2"></div>
+
+  <div class="message fade-in delay-3">
+    이 시각, 하나의 계정이 만들어졌다.<br>
+    사람과 AI가 함께 코드를 쓰기 위해.<br><br>
+    새벽의 고요 속에서 시작된<br>
+    <em>첫 번째 커밋 이전의 순간.</em><br><br>
+    아직 아무것도 없는 이 공백 위에<br>
+    앞으로 만들어갈 것들을 기대하며.
+  </div>
+
+  <div class="counter-section fade-in delay-4">
+    <div class="counter-label">since the beginning</div>
+    <div class="counter">
+      <div class="counter-unit">
+        <div class="counter-value" id="days">0</div>
+        <div class="counter-name">days</div>
+      </div>
+      <div class="separator">:</div>
+      <div class="counter-unit">
+        <div class="counter-value" id="hours">0</div>
+        <div class="counter-name">hours</div>
+      </div>
+      <div class="separator">:</div>
+      <div class="counter-unit">
+        <div class="counter-value" id="minutes">0</div>
+        <div class="counter-name">min</div>
+      </div>
+      <div class="separator">:</div>
+      <div class="counter-unit">
+        <div class="counter-value" id="seconds">0</div>
+        <div class="counter-name">sec</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="quote fade-in delay-5">
+    "Every great project begins with a single git init."
+  </div>
+
+  <div class="signature fade-in delay-6">
+    <a href="https://github.com/songclaude-bot" target="_blank">songclaude-bot</a> &middot; human + claude
+  </div>
+</div>
+
+<script>
+  // Stars
+  const canvas = document.getElementById('stars');
+  const ctx = canvas.getContext('2d');
+  let stars = [];
+
+  function initStars() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    stars = [];
+    const count = Math.floor((canvas.width * canvas.height) / 4000);
+    for (let i = 0; i < count; i++) {
+      stars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 1.2 + 0.3,
+        alpha: Math.random(),
+        delta: (Math.random() * 0.02 + 0.005) * (Math.random() < 0.5 ? 1 : -1)
+      });
+    }
+  }
+
+  function drawStars() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    stars.forEach(s => {
+      s.alpha += s.delta;
+      if (s.alpha <= 0.1 || s.alpha >= 1) s.delta *= -1;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(150, 160, 220, ${s.alpha})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(drawStars);
+  }
+
+  window.addEventListener('resize', initStars);
+  initStars();
+  drawStars();
+
+  // Counter
+  const birth = new Date('2026-02-22T15:45:03Z');
+
+  function updateCounter() {
+    const now = new Date();
+    let diff = Math.floor((now - birth) / 1000);
+
+    const days = Math.floor(diff / 86400); diff %= 86400;
+    const hours = Math.floor(diff / 3600); diff %= 3600;
+    const minutes = Math.floor(diff / 60);
+    const seconds = diff % 60;
+
+    document.getElementById('days').textContent = String(days).padStart(2, '0');
+    document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+    document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+    document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+  }
+
+  updateCounter();
+  setInterval(updateCounter, 1000);
+</script>
+
+</body>
+</html>
