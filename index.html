@@ -34,11 +34,6 @@
     position: fixed;
     z-index: 2;
     cursor: pointer;
-    transition: transform 0.3s ease;
-  }
-
-  .project-star:hover {
-    transform: scale(1.3);
   }
 
   .project-star .star-dot {
@@ -47,9 +42,15 @@
     background: #f093fb;
     box-shadow: 0 0 8px 2px rgba(240, 147, 251, 0.4), 0 0 20px 4px rgba(240, 147, 251, 0.15);
     animation: starPulse 3s ease-in-out infinite;
+    transition: transform 0.3s ease;
   }
 
-  .project-star .star-tooltip {
+  .project-star:hover .star-dot {
+    transform: scale(1.3);
+  }
+
+  /* Tooltip: appended to body, positioned via JS */
+  .star-tooltip-float {
     position: fixed;
     background: rgba(15, 15, 25, 0.95);
     border: 1px solid rgba(240, 147, 251, 0.2);
@@ -64,24 +65,24 @@
     z-index: 10;
   }
 
-  .project-star.show-tooltip .star-tooltip {
+  .star-tooltip-float.visible {
     opacity: 1;
   }
 
-  .star-tooltip .tt-name {
+  .star-tooltip-float .tt-name {
     font-size: 0.8rem;
     font-weight: 600;
     color: #f093fb;
     margin-bottom: 0.3rem;
   }
 
-  .star-tooltip .tt-desc {
+  .star-tooltip-float .tt-desc {
     font-size: 0.65rem;
     color: #999;
     line-height: 1.5;
   }
 
-  .star-tooltip .tt-tag {
+  .star-tooltip-float .tt-tag {
     display: inline-block;
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.55rem;
@@ -92,23 +93,20 @@
     margin-top: 0.4rem;
   }
 
-  .project-star .star-tooltip[data-pos="below"]::before {
-    content: '';
+  .star-tooltip-float .tt-arrow {
     position: absolute;
-    bottom: 100%;
     left: 50%;
     transform: translateX(-50%);
     border: 5px solid transparent;
+  }
+
+  .star-tooltip-float[data-pos="below"] .tt-arrow {
+    bottom: 100%;
     border-bottom-color: rgba(240, 147, 251, 0.2);
   }
 
-  .project-star .star-tooltip[data-pos="above"]::after {
-    content: '';
-    position: absolute;
+  .star-tooltip-float[data-pos="above"] .tt-arrow {
     top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    border: 5px solid transparent;
     border-top-color: rgba(240, 147, 251, 0.2);
   }
 
@@ -297,22 +295,18 @@
 <canvas id="stars"></canvas>
 
 <!-- Project Stars -->
-<a class="project-star fade-in delay-6" href="https://songclaude-bot.github.io/okko-retrospective/" style="top: 25%; left: 18%;">
+<a class="project-star fade-in delay-6" href="https://songclaude-bot.github.io/okko-retrospective/" style="top: 25%; left: 18%;"
+   data-tt-name="OKKO in OKKY"
+   data-tt-desc="OKKY 제1회 AI 바이브코딩 해커톤 후기.&lt;br&gt;4시간, 15팀, 우수상."
+   data-tt-tag="hackathon">
   <div class="star-dot"></div>
-  <div class="star-tooltip">
-    <div class="tt-name">OKKO in OKKY</div>
-    <div class="tt-desc">OKKY 제1회 AI 바이브코딩 해커톤 후기.<br>4시간, 15팀, 우수상.</div>
-    <div class="tt-tag">hackathon</div>
-  </div>
 </a>
 
-<a class="project-star fade-in delay-6" href="https://songclaude-bot.github.io/poke-roguelite/" style="top: 15%; right: 22%;">
+<a class="project-star fade-in delay-6" href="https://songclaude-bot.github.io/poke-roguelite/" style="top: max(15%, 130px); right: 22%;"
+   data-tt-name="Poke Roguelite"
+   data-tt-desc="Pokemon Mystery Dungeon roguelite web game"
+   data-tt-tag="game">
   <div class="star-dot"></div>
-  <div class="star-tooltip">
-    <div class="tt-name">Poke Roguelite</div>
-    <div class="tt-desc">Pokemon Mystery Dungeon roguelite web game</div>
-    <div class="tt-tag">game</div>
-  </div>
 </a>
 
 <div class="container">
@@ -428,55 +422,79 @@
   updateCounter();
   setInterval(updateCounter, 1000);
 
-  // Tooltip positioning
-  document.querySelectorAll('.project-star').forEach(star => {
-    const tooltip = star.querySelector('.star-tooltip');
+  // Tooltip: create a single floating element on body (avoids parent transform issues)
+  const tooltip = document.createElement('div');
+  tooltip.className = 'star-tooltip-float';
+  tooltip.innerHTML = '<div class="tt-arrow"></div><div class="tt-name"></div><div class="tt-desc"></div><div class="tt-tag"></div>';
+  document.body.appendChild(tooltip);
 
-    function positionTooltip() {
-      const rect = star.getBoundingClientRect();
-      const tw = tooltip.offsetWidth;
-      const th = tooltip.offsetHeight;
-      const gap = 12;
-      const pad = 10;
+  let activeStar = null;
 
-      // horizontal: center on star, clamp to viewport
-      let left = rect.left + rect.width / 2 - tw / 2;
-      left = Math.max(pad, Math.min(left, window.innerWidth - tw - pad));
+  function showTooltip(star) {
+    const rect = star.getBoundingClientRect();
+    const name = star.dataset.ttName;
+    const desc = star.dataset.ttDesc;
+    const tag = star.dataset.ttTag;
 
-      // vertical: prefer above, fall below if no room
-      let top;
-      if (rect.top - th - gap >= pad) {
-        top = rect.top - th - gap;
-        tooltip.setAttribute('data-pos', 'above');
-      } else {
-        top = rect.bottom + gap;
-        tooltip.setAttribute('data-pos', 'below');
-      }
+    tooltip.querySelector('.tt-name').textContent = name;
+    tooltip.querySelector('.tt-desc').innerHTML = desc;
+    tooltip.querySelector('.tt-tag').textContent = tag;
 
-      tooltip.style.left = left + 'px';
-      tooltip.style.top = top + 'px';
+    // Measure after content is set
+    tooltip.style.left = '0px';
+    tooltip.style.top = '0px';
+    tooltip.classList.add('visible');
+    const tw = tooltip.offsetWidth;
+    const th = tooltip.offsetHeight;
+    const gap = 12;
+    const pad = 10;
+
+    // Horizontal: center on star, clamp within viewport
+    let left = rect.left + rect.width / 2 - tw / 2;
+    left = Math.max(pad, Math.min(left, window.innerWidth - tw - pad));
+
+    // Vertical: prefer above the star, fall below if no room
+    let top;
+    if (rect.top - th - gap >= pad) {
+      top = rect.top - th - gap;
+      tooltip.setAttribute('data-pos', 'above');
+    } else {
+      top = rect.bottom + gap;
+      tooltip.setAttribute('data-pos', 'below');
     }
 
-    star.addEventListener('mouseenter', () => {
-      positionTooltip();
-      star.classList.add('show-tooltip');
-    });
-    star.addEventListener('mouseleave', () => {
-      star.classList.remove('show-tooltip');
-    });
+    tooltip.style.left = left + 'px';
+    tooltip.style.top = top + 'px';
+
+    // Arrow points to the star's center, not fixed at 50%
+    const arrow = tooltip.querySelector('.tt-arrow');
+    const starCenterX = rect.left + rect.width / 2;
+    const arrowLeft = Math.max(10, Math.min(starCenterX - left, tw - 10));
+    arrow.style.left = arrowLeft + 'px';
+
+    activeStar = star;
+  }
+
+  function hideTooltip() {
+    tooltip.classList.remove('visible');
+    activeStar = null;
+  }
+
+  document.querySelectorAll('.project-star').forEach(star => {
+    star.addEventListener('mouseenter', () => showTooltip(star));
+    star.addEventListener('mouseleave', hideTooltip);
     star.addEventListener('touchstart', (e) => {
       e.preventDefault();
-      positionTooltip();
-      const isShowing = star.classList.contains('show-tooltip');
-      document.querySelectorAll('.project-star').forEach(s => s.classList.remove('show-tooltip'));
-      if (!isShowing) star.classList.add('show-tooltip');
+      if (activeStar === star) {
+        hideTooltip();
+      } else {
+        showTooltip(star);
+      }
     }, { passive: false });
   });
 
   document.addEventListener('touchstart', (e) => {
-    if (!e.target.closest('.project-star')) {
-      document.querySelectorAll('.project-star').forEach(s => s.classList.remove('show-tooltip'));
-    }
+    if (!e.target.closest('.project-star')) hideTooltip();
   });
 </script>
 
